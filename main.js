@@ -1,7 +1,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const token = "NzU1NjQ3MzgxMTkzODgzNjg5.X2GVdg.r5-Ia6_oyPMShKveiNnAtzCXubQ";
-const { ranking } = require('./scraper');
+require('dotenv').config();
+
+const token = process.env.DISCORD_TOKEN;
+const { ranking, player, team, matches, results } = require('./scraper');
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -11,20 +13,20 @@ client.on('message', async (msg) => {
     msg.content = msg.content.trim();
     if (msg.content === '%tr' || msg.content === 'teamranking') {
         msg.reply({ embed: await ranking() });
-    } else if (msg.content === "%result") {
-        // const message = await covidTracking.country(msg.content);
-        msg.reply("test");
-    } else if (msg.content === "%upcoming") {
-        // const message = await covidTracking.country(msg.content);
-        msg.reply("test");
     }
-    // else if (msg.content.startsWith("%ti ")) {
-    //     const message = await covidTracking.country(msg.content);
-    //     msg.reply(message);
-    // } else if (msg.content.startsWith("%pi ")) {
-    //     const message = await covidTracking.country(msg.content);
-    //     msg.reply(message);
-    // }
+    //features to be added
+    // else if (msg.content === "%result") {
+    //     msg.reply({ embed: await results() });
+    // } else if (msg.content === "%matches") {
+    //     msg.reply({ embed: await matches() });
+    // } else if (msg.startsWith("%team ")) {
+    //     msg.reply({ embed: await team() });
+    // } else if (msg.startsWith("%player ")) {
+    //     msg.reply({ embed: await player() });
+    // } 
+    else if (msg === "%help") {
+        msg.reply({ embed: help() });
+    }
 });
 
 client.login(token);
